@@ -21,6 +21,7 @@ try
     // Call Part1 and Part2 methods
     var part1Method = dayType.GetMethod("Part1");
     var part2Method = dayType.GetMethod("Part2");
+    var solutionMethod = dayType.GetMethod("Solution");
 
     if (part1Method != null && part2Method != null)
     {
@@ -37,6 +38,10 @@ try
             Console.WriteLine(actualException.StackTrace);
             return;
         }
+    }
+    else if (solutionMethod != null)
+    {
+        solutionMethod.Invoke(null, null);
     }
     else
     {

@@ -6,7 +6,7 @@ using System.Text;
 
 public class Day5
 {
-    public static void Part1()
+    public static void Solution()
     {
         var lines1 = File.ReadAllLines("5_input_1.txt");
         var pairs = lines1.Select(line => line.Split('|').Select(int.Parse).ToArray()).ToArray();
@@ -100,9 +100,4 @@ public class Day5
         Console.WriteLine(sumPart1);
         Console.WriteLine(sumPart2);
     }
-
-    public static void Part2()
-    {
-    }
-
 }
