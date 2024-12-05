@@ -41,7 +41,17 @@ try
     }
     else if (solutionMethod != null)
     {
-        solutionMethod.Invoke(null, null);
+        try
+        {
+            solutionMethod.Invoke(null, null);
+        }
+        catch (Exception ex)
+        {
+            var actualException = ex.InnerException ?? ex;
+            Console.WriteLine($"Error running Day {day}: {actualException.Message}");
+            Console.WriteLine(actualException.StackTrace);
+            return;
+        }
     }
     else
     {
