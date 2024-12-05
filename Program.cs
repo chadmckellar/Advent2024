@@ -24,8 +24,19 @@ try
 
     if (part1Method != null && part2Method != null)
     {
-        part1Method.Invoke(null, null);
-        part2Method.Invoke(null, null);
+        try
+        {
+            part1Method.Invoke(null, null);
+            part2Method.Invoke(null, null);
+        }
+        catch (Exception ex)
+        {
+            // Get the actual exception from the InnerException if it exists
+            var actualException = ex.InnerException ?? ex;
+            Console.WriteLine($"Error running Day {day}: {actualException.Message}");
+            Console.WriteLine(actualException.StackTrace);
+            return;
+        }
     }
     else
     {
@@ -33,9 +44,9 @@ try
         return;
     }
 }
-catch (Exception)
+catch (Exception ex)
 {
-    Console.WriteLine($"Day {day} not implemented yet.");
+    Console.WriteLine($"Error loading Day {day}: {ex.Message}");
     return;
 }
 
