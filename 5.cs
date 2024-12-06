@@ -20,14 +20,6 @@ public class Day5
             else
                 dict1[pair[0]] = new HashSet<int> { pair[1] };
         }
-        foreach (var pair in pairs)
-        {
-            if (dict2.ContainsKey(pair[1]))
-                dict2[pair[1]].Add(pair[0]);
-            else
-                dict2[pair[1]] = new HashSet<int> { pair[0] };
-        }
-
 
         var lines2 = File.ReadAllLines("5_input_2.txt");
         var rows = lines2.Select(line => line.Split(',').Select(int.Parse).ToArray()).ToArray();
@@ -45,15 +37,6 @@ public class Day5
                     // dict 1 has a key of num, where the values cannot appear before it
                     int n = row[i - 1];
                     if (dict1[num].Contains(n))
-                    {
-                        valid = false;
-                    }
-                }
-                if (dict2.ContainsKey(num))
-                {
-                    // dict 2 has a key of num, where the values cannot appear after it
-                    int n = row[i + 1];
-                    if (dict2[num].Contains(n))
                     {
                         valid = false;
                     }
@@ -79,13 +62,6 @@ public class Day5
 
                         // Check if b must come before a (dict1)
                         if (dict1.ContainsKey(a) && dict1[a].Contains(b))
-                        {
-                            orderedRow[j] = b;
-                            orderedRow[j + 1] = a;
-                            changed = true;
-                        }
-                        // Check if a must come before b (dict2)
-                        else if (dict2.ContainsKey(b) && dict2[b].Contains(a))
                         {
                             orderedRow[j] = b;
                             orderedRow[j + 1] = a;
