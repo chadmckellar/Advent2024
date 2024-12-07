@@ -23,23 +23,37 @@ try
     var part2Method = dayType.GetMethod("Part2");
     var solutionMethod = dayType.GetMethod("Solution");
 
-    if (part1Method != null && part2Method != null)
+    if (part1Method != null )
     {
         try
         {
             part1Method.Invoke(null, null);
-            part2Method.Invoke(null, null);
         }
         catch (Exception ex)
         {
-            // Get the actual exception from the InnerException if it exists
             var actualException = ex.InnerException ?? ex;
             Console.WriteLine($"Error running Day {day}: {actualException.Message}");
             Console.WriteLine(actualException.StackTrace);
             return;
         }
     }
-    else if (solutionMethod != null)
+
+    if (part2Method != null)
+    {
+        try
+        {
+            part2Method.Invoke(null, null);
+        }
+        catch (Exception ex)
+        {
+            var actualException = ex.InnerException ?? ex;
+            Console.WriteLine($"Error running Day {day}: {actualException.Message}");
+            Console.WriteLine(actualException.StackTrace);
+            return;
+        }
+    }
+
+    if (solutionMethod != null)
     {
         try
         {
@@ -53,7 +67,8 @@ try
             return;
         }
     }
-    else
+
+    if (part1Method == null && part2Method == null && solutionMethod == null)
     {
         Console.WriteLine($"Day {day} methods not found.");
         return;
