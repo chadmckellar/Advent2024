@@ -19,23 +19,30 @@ public class Day7
         results = resultValuesPairs.Select(pair => long.Parse(pair[0].Trim())).ToList();
         values = valueStrings.Select(valueString => valueString.Select(v => long.Parse(v)).ToList()).ToList();
     }
-    private static List<long> getOpsAt(long i)
+    private static List<long> getOpsAt(long i, int numOfOps)
     {
-        string binary = Convert.ToString(i, 2);
-        return binary.ToCharArray().Select(s => long.Parse(s.ToString())).ToList();
+        List<long> ops = new List<long>();
+        long n = i;
+        while (n > 0)
+        {
+            ops.Add((int)(n % numOfOps));
+            n /= numOfOps;
+        }
+        ops.Reverse();
+        return ops;
     }
 
-    public static void Part1()
+    public static void DoPart(int part)
     {
         setup();
-
+        int numOfOps = part + 1;
         long totalCalibrationResults = 0;
 
         for (int c = 0; c < results.Count; c++)
         {
-            for (int i = 0; i < Math.Pow(2, values[c].Count - 1); i++)
+            for (int i = 0; i < Math.Pow(numOfOps, values[c].Count - 1); i++)
             {
-                var ops = getOpsAt(i);
+                var ops = getOpsAt(i, numOfOps);
                 List<long> valuesCopy = new List<long>(values[c]);
                 long sum = valuesCopy[0];
 
@@ -51,9 +58,13 @@ public class Day7
                     {
                         sum *= valuesCopy[j + 1];
                     }
-                    else
+                    else if (ops[j] == 1)
                     {
                         sum += valuesCopy[j + 1];
+                    }
+                    else if (ops[j] == 2)
+                    {
+                        sum = long.Parse(sum.ToString() + valuesCopy[j + 1].ToString());
                     }
                 }
 
@@ -64,7 +75,16 @@ public class Day7
                 }
             }
         }
+        Console.WriteLine($"total: {totalCalibrationResults}");
+    }
 
-        Console.WriteLine($"Part1: {totalCalibrationResults}");
+    public static void Part1()
+    {
+        DoPart(1);
+    }
+
+    public static void Part2()
+    {
+        DoPart(2);
     }
 }
